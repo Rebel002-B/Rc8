@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC8 - Next Generation Gaming Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated grid background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Red glow orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ff0000, transparent);
+            top: -200px;
+            left: -100px;
+        }
+
+        .orb2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #cc0000, transparent);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: 4s;
+        }
+
+        .orb3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #ff3333, transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header/Nav */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 100px;
+            padding: 20px 0;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border: 3px solid #ff0000;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff0000, #ff3333, #cc0000);
+            border-radius: 12px;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.7;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #ff0000, #ff4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a {
+            color: #ff6666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff0000;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff0000;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .hero-logo-large {
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-logo-large svg {
+            width: 200px;
+            height: 200px;
+            filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8));
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 90px;
+            font-weight: 900;
+            letter-spacing: 15px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff0000 0%, #ff4444 50%, #ff0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 80px rgba(255, 0, 0, 0.5);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 32px;
+            color: #ff3333;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .hero-description {
+            font-size: 20px;
+            color: #ff8888;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-weight: 300;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 20px 60px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 3px solid #ff0000;
+            border-radius: 50px;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #ff0000;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        .coming-soon-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        /* About Section */
+        .about-section {
+            margin-bottom: 100px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ff0000;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .about-content {
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.6), rgba(40, 0, 0, 0.4));
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            transition: all 0.4s ease;
+        }
+
+        .about-content:hover {
+            border-color: #ff0000;
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.3);
+        }
+
+        .about-text {
+            font-size: 18px;
+            color: #ff8888;
+            line-height: 1.9;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .about-text:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(204, 0, 0, 0.05));
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 30px;
+            padding: 80px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2), transparent);
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            color: #ff0000;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-text {
+            font-size: 20px;
+            color: #ff6666;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .notify-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .notify-input {
+            padding: 18px 30px;
+            font-size: 18px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            color: #fff;
+            width: 350px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .notify-input::placeholder {
+            color: #ff4444;
+        }
+
+        .notify-input:focus {
+            border-color: #ff3333;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .notify-btn {
+            padding: 18px 50px;
+            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notify-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .notify-btn:hover::before {
+            left: 100%;
+        }
+
+        .notify-btn:hover {
+            background: linear-gradient(135deg, #ff3333, #ff0000);
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .notify-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            color: #00ff00;
+            font-weight: 700;
+            display: none;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: rgba(255, 100, 0, 0.1);
+            border: 2px solid #ff6400;
+            border-radius: 10px;
+            color: #ff6400;
+            font-weight: 700;
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(255, 0, 0, 0.2);
+            color: #ff4444;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 60px;
+                letter-spacing: 8px;
+            }
+
+            .hero-subtitle {
+                font-size: 24px;
+            }
+
+            .coming-soon-badge {
+                font-size: 24px;
+                padding: 15px 40px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .notify-input {
+                width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-content {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="glow-orb orb1"></div>
+    <div class="glow-orb orb2"></div>
+    <div class="glow-orb orb3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="nav-logo">
+                <div class="logo-icon">R8</div>
+                <div class="logo-text">RC8</div>
+            </div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#notify">Notify Me</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-logo-large">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer hexagon -->
+                    <polygon points="100,10 170,50 170,130 100,170 30,130 30,50" 
+                             fill="none" stroke="#ff0000" stroke-width="4" opacity="0.6"/>
+                    
+                    <!-- Inner hexagon -->
+                    <polygon points="100,30 150,60 150,120 100,150 50,120 50,60" 
+                             fill="rgba(255,0,0,0.1)" stroke="#ff0000" stroke-width="3"/>
+                    
+                    <!-- RC8 Text -->
+                    <text x="100" y="95" font-family="Orbitron" font-size="32" font-weight="900" 
+                          fill="#ff0000" text-anchor="middle">RC</text>
+                    <text x="100" y="125" font-family="Orbitron" font-size="38" font-weight="900" 
+                          fill="#ff3333" text-anchor="middle">8</text>
+                    
+                    <!-- Corner accents -->
+                    <circle cx="100" cy="10" r="5" fill="#ff0000"/>
+                    <circle cx="170" cy="50" r="5" fill="#ff0000"/>
+                    <circle cx="170" cy="130" r="5" fill="#ff0000"/>
+                    <circle cx="100" cy="170" r="5" fill="#ff0000"/>
+                    <circle cx="30" cy="130" r="5" fill="#ff0000"/>
+                    <circle cx="30" cy="50" r="5" fill="#ff0000"/>
+                </svg>
+            </div>
+
+            <h1 class="hero-title">RC8</h1>
+            <div class="hero-subtitle">The Next Generation</div>
+            <p class="hero-description">
+                Experience unparalleled performance with RC8 - the revolutionary gaming tool engineered for efficiency, 
+                compatibility, and safety. Completely non-lethal design meets cutting-edge technology.
+            </p>
+            <div class="coming-soon-badge">COMING SOON</div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <h2 class="section-title">About RC8</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    [EDIT THIS SECTION - Add your information about RC8 here]
+                </p>
+                <p class="about-text">
+                    RC8 is the next generation gaming tool designed for maximum efficiency and performance. 
+                    Our non-lethal architecture ensures safety while delivering unparalleled results.
+                </p>
+                <p class="about-text">
+                    [Add more paragraphs about your product, mission, team, or whatever you want to share]
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="notify">
+            <h2 class="cta-title">Be The First To Know</h2>
+            <p class="cta-text">Get notified when RC8 launches and receive exclusive early access</p>
+            <form class="notify-form" id="notifyForm">
+                <input type="email" class="notify-input" id="emailInput" placeholder="Enter your email address" required>
+                <button type="submit" class="notify-btn" id="submitBtn">Notify Me</button>
+            </form>
+            <div class="success-message" id="successMessage">✓ Thanks! You'll be notified when RC8 launches!</div>
+            <div class="error-message" id="errorMessage">⚠ Please enter a valid email address</div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 RC8. All rights reserved. | Next Generation Gaming Technology</p>
+        </footer>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <script>
+        // Initialize EmailJS with your public key
+        emailjs.init('DX9AIw-v-mymJfRzy');
+
+        const form = document.getElementById('notifyForm');
+        const emailInput = document.getElementById('emailInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            
+            // Basic email validation
+            if (!email || !email.includes('@')) {
+                showError();
+                return;
+            }
+
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SENDING...';
+
+            // Send email using EmailJS
+            emailjs.send('service_uyyte0l', 'template_nugcyok', {
+                user_email: email,
+                submission_time: new Date().toLocaleString()
+            })
+            .then(function() {
+                showSuccess();
+                emailInput.value = '';
+                console.log('Email sent successfully to:', email);
+            })
+            .catch(function(error) {
+                console.error('EmailJS Error:', error);
+                showError();
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'NOTIFY ME';
+            });
+        });
+
+        function showSuccess() {
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError() {
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
